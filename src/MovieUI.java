@@ -18,8 +18,7 @@ public class MovieUI {
         } while (choice != 0);
     }
     private void process(int choice) {
-        if(choice == 0) return;
-        else if(choice == 1) {
+        if(choice == 1) {
             String name = input.getString("Enter movie name");
             String genre = input.getString("Enter genre");
             Director director = new Director(input.getString("Enter Director's name"));
@@ -30,7 +29,7 @@ public class MovieUI {
             }
             movies.put(name, new Movie(director, genre, actors));
             System.out.println("Done!");
-        } else {
+        } else if(choice == 2) {
             System.out.println("Query Types");
             System.out.println("1) By Name");
             System.out.println("2) By Director");
