@@ -8,12 +8,15 @@ public class MovieUI {
     private final Input input = new Input();
     public MovieUI() {
         int choice;
+        int max;
         do {
             System.out.println("Movies: " + movies.size());
             System.out.println("0) Exit");
             System.out.println("1) Add Movie");
-            System.out.println("2) Search Movie");
-            choice = input.getInt("Enter choice", 0, 2);
+            max = !movies.isEmpty() ? 2 : 1;
+            if(max == 2)
+                System.out.println("2) Search Movie");
+            choice = input.getInt("Enter choice", 0, max);
             process(choice);
         } while (choice != 0);
     }
@@ -27,7 +30,7 @@ public class MovieUI {
             for(int i = 0; i < actorNumber; i++) {
                 actors.add(new Actor(input.getString("Enter name for actor " + (i+1))));
             }
-            movies.put(name, new Movie(director, genre, actors));
+            movies.put(name, new Movie(name, director, genre, actors));
             System.out.println("Done!");
         } else if(choice == 2) {
             System.out.println("Query Types");
@@ -44,7 +47,7 @@ public class MovieUI {
         for (String name : movies.keySet()) {
             Movie movie = movies.get(name);
             boolean isFound = switch (type) {
-                case 1 -> name.toLowerCase().contains(query.toLowerCase());
+                case 1 -> movie.getTitle().toLowerCase().contains(query.toLowerCase());
                 case 2 -> query.toLowerCase().matches(movie.getDirector().getName().toLowerCase());
                 case 4 -> movie.getGenre().equalsIgnoreCase(query);
                 case 3 -> {
@@ -58,7 +61,7 @@ public class MovieUI {
             };
             if(isFound) {
                 System.out.println("--- MOVIE ---");
-                System.out.println("Name: " + name);
+                System.out.println("Name: " + movie.getTitle());
                 System.out.println("Genre: " + movie.getGenre());
                 System.out.println("Director: " + movie.getDirector().getName());
                 StringBuilder actorBuilder = new StringBuilder();
